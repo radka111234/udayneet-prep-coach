@@ -4,6 +4,7 @@ import heroAsset from "@/assets/hero.jpg.asset.json";
 import logoAsset from "@/assets/logo.png.asset.json";
 
 const PHONE = "+91 99524 18523";
+const WHATSAPP = "919952418523";
 const PHONE_HREF = "tel:+919952418523";
 
 export const Route = createFileRoute("/")({
@@ -371,6 +372,19 @@ function Home() {
               className="space-y-4 rounded-2xl bg-cream p-6 text-ink ring-1 ring-black/5 sm:p-8"
               onSubmit={(e) => {
                 e.preventDefault();
+                const f = new FormData(e.currentTarget);
+                const lines = [
+                  `Student name: ${f.get("name") || "-"}`,
+                  `Phone: ${f.get("phone") || "-"}`,
+                  `Course of interest: ${f.get("course") || "-"}`,
+                  `Message: ${f.get("message") || "-"}`,
+                ];
+                const text = `Enquiry from udayneetacademy.com\n\n${lines.join("\n")}`;
+                window.open(
+                  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`,
+                  "_blank",
+                  "noopener,noreferrer",
+                );
                 setSent(true);
               }}
             >
@@ -379,6 +393,7 @@ function Home() {
                   <span className="text-muted-ink">Student name</span>
                   <input
                     type="text"
+                    name="name"
                     required
                     className="mt-1.5 w-full rounded-lg bg-paper/60 px-3.5 py-2.5 ring-1 ring-line focus:ring-2 focus:ring-teal focus:outline-none"
                     placeholder="Student name"
@@ -388,6 +403,7 @@ function Home() {
                   <span className="text-muted-ink">Phone</span>
                   <input
                     type="tel"
+                    name="phone"
                     required
                     className="mt-1.5 w-full rounded-lg bg-paper/60 px-3.5 py-2.5 ring-1 ring-line focus:ring-2 focus:ring-teal focus:outline-none"
                     placeholder="+91 ..."
@@ -396,7 +412,9 @@ function Home() {
               </div>
               <label className="block font-body text-sm">
                 <span className="text-muted-ink">Course of interest</span>
-                <select className="mt-1.5 w-full rounded-lg bg-paper/60 px-3.5 py-2.5 ring-1 ring-line focus:ring-2 focus:ring-teal focus:outline-none">
+                <select
+                  name="course"
+                  className="mt-1.5 w-full rounded-lg bg-paper/60 px-3.5 py-2.5 ring-1 ring-line focus:ring-2 focus:ring-teal focus:outline-none">
                   <option>NEET-UG Biology</option>
                   <option>Class 11 &amp; 12 Biology</option>
                   <option>Class 6–10 Science</option>
@@ -407,6 +425,7 @@ function Home() {
               <label className="block font-body text-sm">
                 <span className="text-muted-ink">Message</span>
                 <textarea
+                  name="message"
                   rows={3}
                   className="mt-1.5 w-full resize-none rounded-lg bg-paper/60 px-3.5 py-2.5 ring-1 ring-line focus:ring-2 focus:ring-teal focus:outline-none"
                   placeholder="Current class, board and target exam date…"
@@ -416,12 +435,12 @@ function Home() {
                 type="submit"
                 className="w-full rounded-full bg-forest px-6 py-3.5 text-base font-medium text-cream ring-1 ring-black/5 transition-colors hover:bg-teal"
               >
-                Send enquiry
+                Send enquiry on WhatsApp
               </button>
               <p className="font-body text-xs text-muted-ink">
                 {sent
-                  ? `Thank you — for the quickest reply, please also call ${PHONE}.`
-                  : `This form is not connected yet. For an immediate answer, call ${PHONE}.`}
+                  ? `WhatsApp should have opened with your enquiry ready to send. If it did not, please call ${PHONE}.`
+                  : `Opens WhatsApp with your details filled in. Prefer to talk? Call ${PHONE}.`}
               </p>
             </form>
           </div>
